@@ -1,0 +1,13 @@
+{
+  "name": "izpit2",
+  "description": "2. pisni izpit",
+  "author": "Dejan Lavbič <Dejan@lavbic.net>",
+  "dependencies": {
+    "express": "*",
+    "hbs": "*"
+  },
+  "scripts": {
+    "start": "node streznik.js"
+  },
+  "private": true
+}
