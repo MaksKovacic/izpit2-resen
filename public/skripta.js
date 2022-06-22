@@ -3,6 +3,13 @@
  */
 window.addEventListener("load", async (event) => {
   /**
+  * Moja malenkost
+  */
+  $('head title', window.parent.document).text("Seznam kulturnih dediščin po mestnih občinah");
+  $(".navbar-brand m-0 h1").text("Seznam kulturnih dediščin po mestnih občinah");
+  document.getElementsByClassName(".navbar-brand m-0 h1").innerHTML = ("Seznam kulturnih dediščin po mestnih občinah")
+
+  /**
    * Izbira mestne občine iz seznama
    */
   $("#mestnaObcina").change(async function () {
@@ -51,7 +58,18 @@ window.addEventListener("load", async (event) => {
  * @param {string} mestnaObcina naziv mestne občine (npr. "Celje")
  */
 let vrniGpsKoordinateMestneObcine = async (mestnaObcina) => {
-  return [15.2616828, 46.2293889];
+  $ajax({
+    url: "https://teaching.lavbic.net/api/kulturneDediscine/iskanje/" + ESD ,
+    type: "GET",
+    success: function(podatki){
+      return [podatki.lang, podatki.lat]
+    },
+    error: function(){
+      console.log("Ni našel")
+      return [15.2616828, 46.2293889];
+
+    },
+  })
 };
 
 /**
@@ -95,3 +113,5 @@ let nastaviPriljubljenost = async (ESD, vrednost) => {
 };
 
 //testna uveljavitev
+
+//novo

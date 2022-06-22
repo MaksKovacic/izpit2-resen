@@ -60,6 +60,7 @@ let shraniPriljubljenost = (ESD, vrednost) => {
     "priljubljenost.json",
     JSON.stringify(priljubljenost, null, 2)
   );
+  vrniPriljubljenost(ESD)
 };
 
 /**
@@ -69,8 +70,11 @@ let shraniPriljubljenost = (ESD, vrednost) => {
  * @returns { plus: int, minus: int }
  */
 let vrniPriljubljenost = (ESD) => {
+  $.ajax({
+
+  }
   return {
-    plus: 0,
-    minus: 0,
+    plus: priljubljenost[ESD] ,
+    minus: odgovor.minus,
   };
 };
