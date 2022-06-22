@@ -1,0 +1,20 @@
+
+/*povezave*/
+a{
+    color: gray;
+    text-decoration: none;
+}
+
+a:hover{
+    color: darkred;
+    cursor: alias;
+}
+
+/*naslovi*/
+h2{
+    margin-top: 5px;
+    background-color: #ffe6e6;
+    color: darkred;
+    border-bottom:2px dotted darkred;
+    margin-bottom: 5px;
+}
