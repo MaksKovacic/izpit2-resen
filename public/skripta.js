@@ -93,3 +93,5 @@ let nastaviPriljubljenost = async (ESD, vrednost) => {
   $("#plus_" + ESD).html(priljubljenost.plus);
   $("#minus_" + ESD).html(priljubljenost.minus);
 };
+
+//testna uveljavitev
