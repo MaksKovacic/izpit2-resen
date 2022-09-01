@@ -29,21 +29,21 @@ window.addEventListener("load", async (event) => {
           "<li class='list-group-item'><b>" +
             kulturnaDediscina.Ime +
             "</b><br><small>(" +
-            "?" +
+            kulturnaDediscina.Datacija +
             ")</small><br>" +
             "<button class='btn btn-sm btn-danger me-1' onclick='nastaviPriljubljenost(" +
             kulturnaDediscina.ESD +
             ", -1)'><span id='minus_" +
             kulturnaDediscina.ESD +
             "'>" +
-            "?" +
+            priljubljenost.minus +
             "</span><i class='fa-solid fa-caret-down ms-1'></i></button>" +
             "<button class='btn btn-sm btn-success' onclick='nastaviPriljubljenost(" +
             kulturnaDediscina.ESD +
             ", 1)'><i class='fa-solid fa-caret-up me-1'></i><span id='plus_" +
             kulturnaDediscina.ESD +
             "'>" +
-            "?" +
+            priljubljenost.plus +
             "</span></button></li>"
         );
       });
@@ -58,18 +58,11 @@ window.addEventListener("load", async (event) => {
  * @param {string} mestnaObcina naziv mestne občine (npr. "Celje")
  */
 let vrniGpsKoordinateMestneObcine = async (mestnaObcina) => {
-  $ajax({
-    url: "https://teaching.lavbic.net/api/kulturneDediscine/iskanje/" + ESD ,
-    type: "GET",
-    success: function(podatki){
-      return [podatki.lang, podatki.lat]
-    },
-    error: function(){
-      console.log("Ni našel")
-      return [15.2616828, 46.2293889];
-
-    },
-  })
+  let odgovor = await $.getJSON(
+    "https://teaching.lavbic.net/api/nominatim/search?q=" + mestnaObcina +
+    "&limit=1&addressdetails=1&format=geojson"
+  );
+  return odgovor.features[0].geometry.coordinates;
 };
 
 /**
@@ -107,7 +100,12 @@ let vrniPriljubljenost = async (ESD) => {
  * @param {int} vrednost sprememba (1 za plus ali -1 za minus)
  */
 let nastaviPriljubljenost = async (ESD, vrednost) => {
-  let priljubljenost = {plus: 0, minus: 0};
+  let priljubljenost = await $.getJSON(
+    "http://localhost:8080/priljubljenost/" +
+    (vrednost > 0 ? "plus" : "minus") +
+    "/" +
+    ESD
+  );
   $("#plus_" + ESD).html(priljubljenost.plus);
   $("#minus_" + ESD).html(priljubljenost.minus);
 };

@@ -23,11 +23,15 @@ streznik.get("/", (zahteva, odgovor) => {
 
 // Shrani priljubljenost
 streznik.get("/priljubljenost/plus/:ESD", (zahteva, odgovor) => {
-  odgovor.status(200).send(vrniPriljubljenost());
+  let ESD = zahteva.params.ESD;
+  shraniPriljubljenost(ESD, 1);
+  odgovor.status(200).send(vrniPriljubljenost(ESD));
 });
 
 streznik.get("/priljubljenost/minus/:ESD", (zahteva, odgovor) => {
-  odgovor.status(200).send(vrniPriljubljenost());
+  let ESD = zahteva.params.ESD;
+  shraniPriljubljenost(ESD, -1);
+  odgovor.status(200).send(vrniPriljubljenost(ESD));
 });
 
 // Vrni priljubljenost
@@ -70,11 +74,15 @@ let shraniPriljubljenost = (ESD, vrednost) => {
  * @returns { plus: int, minus: int }
  */
 let vrniPriljubljenost = (ESD) => {
-  $.ajax({
-
+  if(priljubljenost[ESD]){
+    return{
+      plus: priljubljenost[ESD].plus ? priljubljenost[ESD].plus : 0,
+      minus: priljubljenost[ESD].minus ? priljubljenost[ESD].minus : 0,
+    }
+  }else{
+    return{
+      plus: 0,
+      minus: 0,
+    };
   }
-  return {
-    plus: priljubljenost[ESD] ,
-    minus: odgovor.minus,
-  };
 };
